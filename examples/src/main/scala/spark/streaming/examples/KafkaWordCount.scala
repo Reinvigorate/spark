@@ -10,6 +10,18 @@ import spark.streaming.StreamingContext._
 import spark.storage.StorageLevel
 import spark.streaming.util.RawTextHelper._
 
+/**
+ * Consumes messages from one or more topics in Kafka and does wordcount.
+ * Usage: KafkaWordCount <master> <zkQuorum> <group> <topics> <numThreads>
+ *   <master> is the Spark master URL. In local mode, <master> should be 'local[n]' with n > 1.
+ *   <zkQuorum> is a list of one or more zookeeper servers that make quorum
+ *   <group> is the name of kafka consumer group
+ *   <topics> is a list of one or more kafka topics to consume from
+ *   <numThreads> is the number of threads the kafka consumer should use
+ *
+ * Example:
+ *    `./run spark.streaming.examples.KafkaWordCount local[2] zoo01,zoo02,zoo03 my-consumer-group topic1,topic2 1`
+ */
 object KafkaWordCount {
   def main(args: Array[String]) {
     
@@ -34,6 +46,18 @@ object KafkaWordCount {
   }
 }
 
+
+/**
+ * Produces messages onto a Kafka topic, for use with KafkaWordCount spark streaming example.
+ * Usage: KafkaWordCount <master> <zkQuorum> <group> <topics> <numThreads>
+ *   <zkQuorum> is a list of one or more zookeeper servers that make quorum
+ *   <topic> the topic to write messages onto
+ *   <messagesPerSec> number of messages to emit onto kafka per/second.
+ *   <wordsPerMessage> number of words that each message should contain
+
+ * Example:
+ *    `./run spark.streaming.examples.KafkaWordCountProducer local[2] zoo01,zoo02,zoo03 topic1 1 10`
+ */
 // Produces some random words between 1 and 100.
 object KafkaWordCountProducer {
 
